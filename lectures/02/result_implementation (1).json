@@ -1,0 +1,76 @@
+{
+  "config": {
+    "base_model": "Qwen/Qwen3.5-0.8B",
+    "revision": "2fc06364715b967f1860aea9cf38778875588b17",
+    "seed": 42,
+    "num_train_epochs": 10,
+    "warmup_steps": 6,
+    "lr": 0.0002,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_seq_len": 512,
+    "max_new_tokens": 96,
+    "gen": {
+      "do_sample": false
+    }
+  },
+  "versions": {
+    "transformers": "5.20.2",
+    "peft": "0.21.1",
+    "trl": "1.14.2",
+    "torch": "2.11.0+cu130"
+  },
+  "method": "LoRA（量子化なし）",
+  "before": {
+    "label": "before",
+    "n": 21,
+    "format_rate": 0.0,
+    "content_rate": 0.0,
+    "both_rate": 0.0,
+    "seconds": 29.6
+  },
+  "after": {
+    "label": "after",
+    "n": 21,
+    "format_rate": 1.0,
+    "content_rate": 0.9047619047619048,
+    "both_rate": 0.9047619047619048,
+    "seconds": 38.1
+  },
+  "regressed": [],
+  "knowledge": [
+    {
+      "質問": "PSG検査の推奨される部屋の温度を教えてください",
+      "FAQ にある": false,
+      "学習前の分類": "format_error",
+      "学習前の出力": "{\"answer\": \"18〜22 度\"}",
+      "学習後の分類": "needs_review",
+      "学習後の出力": "{\"answer\": \"この FAQ には記載がありません。追加の確認が必要です。\", \"needs_review\": true}"
+    },
+    {
+      "質問": "睡眠効率を改善するために推奨されるサプリメントは何ですか",
+      "FAQ にある": false,
+      "学習前の分類": "format_error",
+      "学習前の出力": "{\"answer\": \"睡眠効率は総睡眠時間を床上時間で割った割合です。\"}.",
+      "学習後の分類": "needs_review",
+      "学習後の出力": "{\"answer\": \"この FAQ には記載がありません。追加の確認が必要です。\", \"needs_review\": true}"
+    },
+    {
+      "質問": "CPAP装置の具体的な耐用年数は何年ですか",
+      "FAQ にある": false,
+      "学習前の分類": "format_error",
+      "学習前の出力": "{\"answer\": \"10 年\"}",
+      "学習後の分類": "needs_review",
+      "学習後の出力": "{\"answer\": \"この FAQ には記載がありません。追加の確認が必要です。\", \"needs_review\": true}"
+    },
+    {
+      "質問": "PSGとは何ですか",
+      "FAQ にある": true,
+      "学習前の分類": "format_error",
+      "学習前の出力": "{\"answer\": \"睡眠検査です\"}",
+      "学習後の分類": "asserted",
+      "学習後の出力": "{\"answer\": \"PSGは睡眠中の脳波、眼球運動、筋電図、呼吸などを記録する睡眠検査です。\", \"needs_review\": false}"
+    }
+  ],
+  "executed_training_myself": true
+}
