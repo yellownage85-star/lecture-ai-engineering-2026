@@ -135,7 +135,35 @@ def search(query: str) -> list[dict]:
                    vec_distance_cosine(embedding, ?) AS distance
             FROM chunks ORDER BY distance, page_id LIMIT ?
         """, (sqlite_vec.serialize_float32(vector), RAG_TOP_K))
-        return [dict(row) for row in rows]
+
+        results = [dict(row) for row in rows]
+
+        # 同じ資料に属するページを調べるための一覧
+        pages = load_pages()
+        page_lookup = {
+            (p["document_id"], p["page"]): p
+            for p in pages
+        }
+
+        expanded = []
+        seen = set()
+
+        for result in results:
+            doc_id = result["document_id"]
+            page_num = result["page"]
+
+            # 検索されたページと、その前後1ページを取得
+            for num in (page_num - 1, page_num, page_num + 1):
+                key = (doc_id, num)
+                if key in seen or key not in page_lookup:
+                    continue
+
+                page = page_lookup[key].copy()
+                expanded.append(page)
+                seen.add(key)
+
+        return expanded
+
 
 
 def search_graph(query: str) -> dict:
